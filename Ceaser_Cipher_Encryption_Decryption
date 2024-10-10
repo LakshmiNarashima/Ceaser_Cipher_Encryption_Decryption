@@ -1,0 +1,52 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string encrypt(const string& text, int shift) {
+    string result = "";
+
+    for (char ch : text) {
+        if (isupper(ch)) {
+            result += char((int(ch) + shift - 65) % 26 + 65);
+        } else if (islower(ch)) {
+            result += char((int(ch) + shift - 97) % 26 + 97);
+        } else {
+            result += ch; // Non-alphabetical characters remain unchanged
+        }
+    }
+    return result;
+}
+
+string decrypt(const string& text, int shift) {
+    return encrypt(text, -shift);
+}
+
+int main() {
+    cout << "Caesar Cipher Encryption/Decryption" << endl;
+
+    char choice;
+    cout << "Would you like to (E)ncrypt or (D)ecrypt? ";
+    cin >> choice;
+    cin.ignore(); // To ignore the newline character after the choice input
+
+    string message;
+    cout << "Enter the message: ";
+    getline(cin, message);
+
+    int shift;
+    cout << "Enter the shift value: ";
+    cin >> shift;
+
+    if (toupper(choice) == 'E') {
+        string encrypted_message = encrypt(message, shift);
+        cout << "Encrypted Message: " << encrypted_message << endl;
+    } else if (toupper(choice) == 'D') {
+        string decrypted_message = decrypt(message, shift);
+        cout << "Decrypted Message: " << decrypted_message << endl;
+    } else {
+        cout << "Invalid choice. Please choose 'E' for encryption or 'D' for decryption." << endl;
+    }
+
+    return 0;
+}
